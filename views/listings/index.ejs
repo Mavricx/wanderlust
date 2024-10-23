@@ -7,11 +7,17 @@
   </head>
   <body>
     <h3>All Listing</h3>
+    <form action="/listing/new" method="GET">
+      <button>Create New Listing</button>
+    </form>
     <ul>
       <% for (let listing of allListing){ %>
       <a href="/listing/<%=listing.id %>"> <li><%=listing.title %></li></a>
 
       <li><%=listing.description %></li>
+      <form action="/listing/<%=listing.id%>/edit" method="get">
+        <button>Edit this Listing</button>
+      </form>
       <% } %>
     </ul>
   </body>
