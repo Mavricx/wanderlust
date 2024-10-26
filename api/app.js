@@ -1,46 +1,36 @@
-const express = require("express");
+const path = require('path');
+const express = require('express');
 const app = express();
-const mongoose = require("mongoose");
-const Listing = require("./models/listing.js")
-const path = require("path");
-const methodOverride = require("method-override");
-const ejsMate = require("ejs-mate");
+const methodOverride = require('method-override');
+const mongoose = require('mongoose');
+const ejsMate = require('ejs-mate');
+const Listing = require("../models/listing.js")
 
-app.set('view engine', 'ejs');
-app.set("views", path.join(__dirname, 'views'));
+require('dotenv').config({ path: '../.env' });
+const dbUrl = process.env.MONGO_URL;
+const port = process.env.PORT || 3000;
+
+app.set("views", path.join(__dirname, '../views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
-app.use(express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(__dirname, '../public')));
 
-const Mongo_URL = "mongodb://127.0.0.1:27017/wanderlust"
+
 
 async function main() {
-    await mongoose.connect(Mongo_URL)
+    await mongoose.connect(dbUrl);
 }
 
 main().then(() => {
-    console.log("database connection successful")
+    console.log("database connection successful");
 }).catch(err => console.log(err));
 
+
 app.get("/", (req, res) => {
-    res.send("wanderLust home page")
-})
-// app.get("/testListing", async (req, res) => {
-//     let sampleListing = new Listing({
-//         title: "My new Villa",
-//         description: "By the beach",
-//         price: 1200,
-//         location: "Calangute, Goa",
-//         country: "India"
-//     });
+    res.render("listings/home.ejs")
+});
 
-//     await sampleListing.save();
-//     console.log("sample was saved .")
-//     res.send("successful test")
-// })
-
-//index route
 app.get("/listing", async (req, res) => {
     const allListing = await Listing.find({});
     res.render("listings/index.ejs", { allListing });
@@ -80,6 +70,6 @@ app.delete("/listing/:id", async (req, res) => {
     res.redirect("/listing");
 
 })
-app.listen(8080, () => {
-    console.log("server lis listening on port 8080");
+app.listen(port, () => {
+    console.log("server listening on port", port);
 })
