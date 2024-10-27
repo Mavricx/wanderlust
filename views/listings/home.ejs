@@ -1,7 +1,62 @@
 <% layout("/layouts/boilerplate") %>
-<br />
-<br />
+<style>
+  body,
+  html {
+    height: 100%;
+    margin: 0;
+    background-color: rgb(203, 215, 226);
+  }
+  .container-fluid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 77vh;
+    width: 100%;
+  }
+  .left-content {
+    max-width: 50%;
+  }
+  .left-content h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  .spline-embed {
+    width: 45%;
+    height: 70vh;
+  }
+  .btn-discover {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    padding: 0.8rem 2rem;
+  }
+</style>
 <body>
-  <h3>WanderLust Home Page</h3>
-  <h4>Page Under Development </h4>
+  <div class="container-fluid">
+    <!-- Left Side Content -->
+    <div class="left-content">
+      <h1>Explore Stunning Locations</h1>
+      <p>
+        Book your stay in the world's most beautiful places and create
+        unforgettable memories.
+      </p>
+      <a href="/listing" class="btn btn-primary btn-discover">Discover More</a>
+    </div>
+
+    <!-- Right Side: Spline Model -->
+    <spline-viewer
+      url="https://prod.spline.design/tgoO1xL7N2RiJWVm/scene.splinecode"
+      class="spline-embed"
+      frameborder="0"
+    ></spline-viewer>
+  </div>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script
+    type="module"
+    src="https://unpkg.com/@splinetool/viewer@1.9.35/build/spline-viewer.js"
+  ></script>
 </body>
