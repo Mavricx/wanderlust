@@ -3,7 +3,13 @@
   <div class="row">
     <div class="col-8 offset-2">
       <h3>Edit Listing</h3>
-      <form method="post" action="/listing/<%=listing.id%>?_method=PUT">
+      <form
+        method="post"
+        action="/listing/<%=listing.id%>?_method=PUT"
+        novalidate
+        class="needs-validation"
+        onsubmit="validateForm(event)"
+      >
         <div class="md-3">
           <label for="title" class="form-label"> Title:</label>
           <input
@@ -11,7 +17,9 @@
             name="listing[title]"
             class="form-control"
             value="<%=listing.title %>"
+            required
           />
+          <div class="valid-feedback">Title looks fine</div>
         </div>
         <div class="md-3">
           <label for="image" class="form-label">Image URL:</label>
@@ -21,6 +29,9 @@
             class="form-control"
             value="<%=listing.image %>"
           />
+          <div class="valid-feedback">
+            Default image will be placed in case of empty field
+          </div>
         </div>
         <div class="md-3">
           <label for="description" class="form-label">Description</label>
@@ -29,9 +40,11 @@
             cols="50"
             rows="10"
             class="form-control"
+            required
           >
               <%=listing.description %></textarea
           >
+          <div class="invalid-feedback">Adds a short note about the spot</div>
         </div>
         <div class="md-3">
           <label for="location" class="form-label">Location</label>
@@ -39,8 +52,10 @@
             type="text"
             name="listing[location]"
             class="form-control"
-            value="<%=listing.location %>"
+            value="<%=listing.location %> "
+            required
           />
+          <div class="invalid-feedback">Enter a valid location!</div>
         </div>
         <div class="row">
           <div class="md-3 col-4">
@@ -50,7 +65,9 @@
               name="listing[price]"
               class="form-control"
               value="<%=listing.price %>"
+              required
             />
+            <div class="invalid-feedback">Enter a proper price!</div>
           </div>
           <div class="mid-3 col-8">
             <label for="country" class="form-label">Country</label>
@@ -59,11 +76,13 @@
               name="listing[country]"
               class="form-control"
               value="<%=listing.country %>"
+              required
             />
+            <div class="invalid-feedback">Enter a valid country!</div>
           </div>
         </div>
         <br /><br />
-        <button type="submit" class="btn add-btn">Update</button>
+        <button type="submit" class="btn add-btn" formnovalidate>Update</button>
         <a href="/listing">
           <button class="btn add-btn">Back</button>
         </a>

@@ -6,7 +6,13 @@
     <div class="col-8 offset-2">
       <h3>Create New Listing</h3>
 
-      <form method="post" action="/listing">
+      <form
+        method="post"
+        action="/listing"
+        class="needs-validation"
+        novalidate
+        onsubmit="validateForm(event)"
+      >
         <div class="mb-3">
           <label for="title" class="form-label">Title:</label>
           <input
@@ -14,7 +20,9 @@
             name="listing[title]"
             placeholder="Enter a Catchy Title"
             class="form-control"
+            required
           />
+          <div class="valid-feedback">Title Looks Good</div>
         </div>
         <div class="mb-3">
           <label for="image" class="form-label">Image URL:</label>
@@ -24,11 +32,19 @@
             placeholder="Enter Image URL"
             class="form-control"
           />
+          <div class="valid-feedback">
+            Default image will be placed in case of empty field
+          </div>
         </div>
 
         <div class="mb-3">
           <label for="description" class="form-label">Description:</label>
-          <textarea name="listing[description]" class="form-control"></textarea>
+          <textarea
+            name="listing[description]"
+            class="form-control"
+            required
+          ></textarea>
+          <div class="invalid-feedback">Write a short note about the spot</div>
         </div>
 
         <div class="mb-3">
@@ -38,17 +54,20 @@
             name="listing[location]"
             class="form-control"
             placeholder="e.g: Jaipur, Rajasthan"
+            required
           />
+          <div class="invalid-feedback">Enter a valid location!</div>
         </div>
         <div class="row">
           <div class="mb-3 col-md-4">
             <label for="price" class="form-label">Price Per Night:</label>
             <input
-              type="number"
               name="listing[price]"
               placeholder="e.g: 2000"
               class="form-control"
+              required
             />
+            <div class="invalid-feedback">Enter a proper price!</div>
           </div>
 
           <div class="mb-3 col-md-8">
@@ -58,12 +77,15 @@
               name="listing[country]"
               placeholder="e.g: India"
               class="form-control"
+              required
             />
+            <div class="invalid-feedback">Enter a valid country!</div>
           </div>
         </div>
-
         <br />
-        <button type="submit" class="btn btn-dark add-btn">Add</button>
+        <button type="submit" class="btn btn-dark add-btn" formnovalidate>
+          Add
+        </button>
       </form>
       <br /><br /><br />
     </div>
