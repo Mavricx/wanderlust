@@ -8,6 +8,7 @@ const Listing = require("../models/listing.js")
 const wrapAsync = require('../utils/wrapAsync.js')
 const ExpressError = require('../utils/ExpressError.js')
 const { listingSchema } = require('./schema.js')
+const Review = require('../models/review.js')
 
 require('dotenv').config({ path: '../.env' });
 const dbUrl = process.env.MONGO_URL;
@@ -82,7 +83,7 @@ app.post("/listing", validateListing, wrapAsync(async (req, res, next) => {
 }))
 
 
-app.put("/listing/:id", validateListing, wrapAsync(async (req, res, next) =>{
+app.put("/listing/:id", validateListing, wrapAsync(async (req, res, next) => {
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
     res.redirect(`/listing/${id}`)
@@ -96,6 +97,18 @@ app.delete("/listing/:id", wrapAsync(async (req, res, next) => {
     res.redirect("/listing");
 }))
 
+//Reviews
+//post route
+app.post("/listing/:id/reviews", wrapAsync(async (req, res) => {
+    let listing=await Listing.findById(req.params.id);
+    let newReview=new Review(req.body.review);
+    listing.reviews.push(newReview);
+    await newReview.save();
+    await listing.save();
+    console.log("new review saved")
+    res.redirect(`/listing/${listing._id}`);
+
+}))
 
 app.all("*", (req, res, next) => {
     next(new ExpressError(404, "Page not found"))

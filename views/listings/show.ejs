@@ -1,40 +1,65 @@
 <% layout("/layouts/boilerplate") %>
-<body>
-  <div class="row mt-3">
-    <div class="col-8 offset-3">
-      <h3>Listing Details:</h3>
-    </div>
-    <div class="card col-6 offset-3 show-card">
-      <img
-        src="<%= listing.image  %>"
-        class="card-img-top show-img"
-        alt="listing_image"
-      />
-      <div class="card-body">
-        <p class="card-text">
-          <b><%=listing.title %></b>
-          <br />
-          <%=listing.description%>
-          <br />
-          &#8377;<%= listing.price%>
-          <br />
-          <%=listing.location%>
-          <br />
-          <%=listing. country %>
-        </p>
-      </div>
-    </div>
-    <br />
-    <div class="btns">
-      <a
-        href="/listing/<%=listing.id%>/edit"
-        class="btn btn-dark col-1 offset-3 add-btn"
-      >
-        Edit</a
-      >
-      <form action="/listing/<%=listing.id%>?_method=DELETE" method="post">
-        <button class="btn btn-dark offset-5">Delete</button>
-      </form>
+<div class="row mt-3">
+  <div class="col-8 offset-3">
+    <h3><%=listing.title %></h3>
+  </div>
+  <div class="card col-6 offset-3 show-card">
+    <img
+      src="<%= listing.image  %>"
+      class="card-img-top show-img"
+      alt="listing_image"
+    />
+    <div class="card-body">
+      <p class="card-text">
+        <br />
+        <%=listing.description%>
+        <br />
+        &#8377;<%= listing.price%>
+        <br />
+        <%=listing.location%>
+        <br />
+        <%=listing. country %>
+      </p>
     </div>
   </div>
-</body>
+  <div class="btns">
+    <a
+      href="/listing/<%=listing.id%>/edit"
+      class="btn btn-dark col-1 offset-3 add-btn"
+    >
+      Edit</a
+    >
+    <form action="/listing/<%=listing.id%>?_method=DELETE" method="post">
+      <button class="btn btn-dark offset-5">Delete</button>
+    </form>
+  </div>
+  <br />
+  <hr />
+  <div class="col-8 offset-3 mb-3">
+    <h4>Leave a Review</h4>
+    <form action="/listing/<%=listing.id%>/reviews" method="POST">
+      <div class="mb-3 mt-3">
+        <label for="rating" class="form-label">Rating</label>
+        <input
+          type="range"
+          min="1"
+          max="5"
+          name="review[rating]"
+          id="rating"
+          class="form-range"
+        />
+      </div>
+      <div class="mb-3 mt-3">
+        <label for="comments" class="form-label">Comments</label>
+        <textarea
+          name="review[comment]"
+          id="comment"
+          cols="30"
+          rows="4"
+          class="form-control"
+        ></textarea>
+      </div>
+      <button class="btn btn-outline-dark">Submit</button>
+    </form>
+  </div>
+</div>
