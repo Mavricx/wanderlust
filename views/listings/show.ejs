@@ -37,8 +37,14 @@
   <hr />
   <div class="col-8 offset-3 mb-3">
     <h4>Leave a Review</h4>
-    <form action="/listing/<%=listing.id%>/reviews" method="POST">
-      <div class="mb-3 mt-3">
+    <form
+      action="/listing/<%=listing.id%>/reviews"
+      method="POST"
+      novalidate
+      class="needs-validation"
+      onsubmit="validateForm(event)"
+    >
+      <div class="mb-3 mt-3"> 
         <label for="rating" class="form-label">Rating</label>
         <input
           type="range"
@@ -57,9 +63,11 @@
           cols="30"
           rows="4"
           class="form-control"
+          required
         ></textarea>
+        <div class="invalid-feedback">Please Add Some Comments.</div>
       </div>
-      <button class="btn btn-outline-dark">Submit</button>
+      <button class="btn btn-outline-dark" formnovalidate>Submit</button>
     </form>
   </div>
 </div>

@@ -7,7 +7,7 @@ const ejsMate = require('ejs-mate');
 const Listing = require("../models/listing.js")
 const wrapAsync = require('../utils/wrapAsync.js')
 const ExpressError = require('../utils/ExpressError.js')
-const { listingSchema } = require('./schema.js')
+const { listingSchema, reviewSchema } = require('./schema.js')
 const Review = require('../models/review.js')
 
 require('dotenv').config({ path: '../.env' });
@@ -49,6 +49,16 @@ const validateListing = (req, res, next) => {
 }
 
 
+const validateReview = (req, res, next) => {
+    let { error } = reviewSchema.validate(req.body);
+    if (error) {
+        let errMsg = error.details.map((el) => el.message).join(",");
+        throw new ExpressError(400, errMsg);
+    }
+    else {
+        next();
+    }
+}
 app.get("/listing", wrapAsync(async (req, res, next) => {
     const allListing = await Listing.find({});
     res.render("listings/index.ejs", { allListing });
@@ -99,9 +109,9 @@ app.delete("/listing/:id", wrapAsync(async (req, res, next) => {
 
 //Reviews
 //post route
-app.post("/listing/:id/reviews", wrapAsync(async (req, res) => {
-    let listing=await Listing.findById(req.params.id);
-    let newReview=new Review(req.body.review);
+app.post("/listing/:id/reviews", validateReview, wrapAsync(async (req, res) => {
+    let listing = await Listing.findById(req.params.id);
+    let newReview = new Review(req.body.review);
     listing.reviews.push(newReview);
     await newReview.save();
     await listing.save();
