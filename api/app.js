@@ -119,7 +119,15 @@ app.post("/listing/:id/reviews", validateReview, wrapAsync(async (req, res) => {
     res.redirect(`/listing/${listing._id}`);
 
 }))
-
+//Review delete route
+app.delete("/listing/:id/reviews/:reviewId", wrapAsync(async (req, res) => {
+    let { id, reviewId } = req.params;
+    let listing = await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } })//code to pull or delete that review from the array of review
+    let review = await Review.findByIdAndDelete(reviewId);
+    console.log("review deleted", review)
+    console.log("listing updated", listing);
+    res.redirect(`/listing/${id}`);
+}))
 app.all("*", (req, res, next) => {
     next(new ExpressError(404, "Page not found"))
 })
