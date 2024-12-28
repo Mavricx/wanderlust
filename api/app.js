@@ -4,11 +4,16 @@ const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const path = require('path');
 const ejsMate = require('ejs-mate');
-const ExpressError = require('../utils/ExpressError.js')
-const listings = require("../routes/listing.js")
-const reviews = require("../routes/review.js")
+const ExpressError = require('../utils/ExpressError.js');
 const session = require('express-session');
 const flash = require('connect-flash');
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require('../models/user.js');
+
+const listingRouter = require("../routes/listing.js");
+const reviewRouter = require("../routes/review.js");
+const userRouter = require("../routes/user.js")
 
 require('dotenv').config({ path: '../.env' });
 const dbUrl = process.env.MONGO_URL;
@@ -41,7 +46,7 @@ const sessionOptions = {
 }
 
 
-app.get("/", (req, res) => {
+app.get("/", (req, res) => {//incomplete home page // to add login and signin page
     res.render("listings/home.ejs")
 });
 
@@ -49,14 +54,30 @@ app.get("/", (req, res) => {
 app.use(session(sessionOptions));
 app.use(flash())
 
-app.use((req, res, next) => {
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));//in-built method to authenticate
+passport.serializeUser(User.serializeUser());//load credentials to the session.
+passport.deserializeUser(User.deserializeUser());//extract from session
+
+app.use((req, res, next) => {//middleware for storing flash.
     res.locals.success = req.flash("success")
     res.locals.error = req.flash("error")
     next();
 })
 
-app.use("/listing", listings);
-app.use("/listing/:id/reviews", reviews)
+app.get("/demouser", async (req, res) => {
+    const fakeUser = new User({
+        email: "student@example.com",
+        username: "normalstudent",
+    })
+    let registeredUser = await User.register(fakeUser, "helloworld");//automatically checks if there same user exist or not.
+    res.send(registeredUser);
+})//hashing algorithm used pbkdf2.
+
+app.use("/listing", listingRouter);
+app.use("/listing/:id/reviews", reviewRouter)
+app.use("/signup", userRouter)
 
 app.all("*", (req, res, next) => {
     next(new ExpressError(404, "Page not found"))
