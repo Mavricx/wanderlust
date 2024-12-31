@@ -46,9 +46,7 @@ const sessionOptions = {
 }
 
 
-app.get("/", (req, res) => {//incomplete home page // to add login and signin page
-    res.render("listings/home.ejs")
-});
+
 
 
 app.use(session(sessionOptions));
@@ -75,6 +73,9 @@ app.get("/demouser", async (req, res) => {
     res.send(registeredUser);
 })//hashing algorithm used pbkdf2.
 
+app.get("/", (req, res) => {// to add login and signin page
+    res.render("listings/home.ejs")
+});
 app.use("/listing", listingRouter);
 app.use("/listing/:id/reviews", reviewRouter)
 app.use("/", userRouter)
