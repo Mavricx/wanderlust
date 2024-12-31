@@ -61,6 +61,7 @@ passport.deserializeUser(User.deserializeUser());//extract from session
 app.use((req, res, next) => {//middleware for storing flash.
     res.locals.success = req.flash("success")
     res.locals.error = req.flash("error")
+    res.locals.currUser = req.user;
     next();
 })
 
