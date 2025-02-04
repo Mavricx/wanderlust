@@ -11,17 +11,20 @@
     />
     <div class="card-body">
       <p class="card-text">
-        <br />
-        <%=listing.description%>
-        <br />
-        &#8377;<%= listing.price%>
-        <br />
-        <%=listing.location%>
-        <br />
-        <%=listing. country %>
+        Owned by:
+        <i><%=listing.owner.username %></i>
       </p>
+      <br />
+      <p class="card-text"><%=listing.description%></p>
+      <br />
+      <p class="card-text">&#8377;<%= listing.price%></p>
+      <br />
+      <p class="card-text"><%=listing.location%></p>
+      <br />
+      <p class="card-text"><%=listing. country %></p>
     </div>
   </div>
+  <% if(currUser && currUser._id.equals(listing.owner._id)) { %>
   <div class="btns">
     <a
       href="/listing/<%=listing.id%>/edit"
@@ -33,9 +36,12 @@
       <button class="btn btn-dark offset-5">Delete</button>
     </form>
   </div>
+  <% } %>
   <br />
   <hr />
+
   <div class="col-8 offset-3 mb-3">
+    <% if(currUser) {%>
     <h4>Leave a Review</h4>
     <form
       action="/listing/<%=listing.id%>/reviews"
@@ -69,13 +75,14 @@
       </div>
       <button class="btn btn-outline-dark" formnovalidate>Submit</button>
     </form>
+    <% } %>
     <hr />
     <p><b>All Reviews</b></p>
     <div class="row">
       <% for(review of listing.reviews){ %>
       <div class="card col-5 ms-3 mb-3">
         <div class="card-body">
-          <h5 class="card-title">John Doe</h5>
+          <p class="card-title"><i>@<%=review.author.username %></i></p>
           <p class="card-text"><%=review.comment %></p>
           <p class="card-text">Rated: <%=review.rating%> stars</p>
         </div>
