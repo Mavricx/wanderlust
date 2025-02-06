@@ -14,8 +14,8 @@ router.route("/signup")
 
 
 router.route("/login")
-    .get("/login", userController.renderLoginForm)
-    .post("/login", saveRedirectUrl,
+    .get(userController.renderLoginForm)
+    .post(saveRedirectUrl,
         passport.authenticate('local',//if the provided credentials passthrough this middleware then it goes for the code inside post request otherwise it redirects back to login page.
             {
                 failureRedirect: '/login',

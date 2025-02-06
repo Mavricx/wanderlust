@@ -1,3 +1,9 @@
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config({ path: '../.env' });
+}
+const dbUrl = process.env.MONGO_URL;
+const port = process.env.PORT || 3000;
+
 const express = require('express');
 const app = express();
 const methodOverride = require('method-override');
@@ -15,9 +21,7 @@ const listingRouter = require("../routes/listing.js");
 const reviewRouter = require("../routes/review.js");
 const userRouter = require("../routes/user.js")
 
-require('dotenv').config({ path: '../.env' });
-const dbUrl = process.env.MONGO_URL;
-const port = process.env.PORT || 3000;
+
 
 app.set("views", path.join(__dirname, '../views'));
 app.use(express.urlencoded({ extended: true }));
