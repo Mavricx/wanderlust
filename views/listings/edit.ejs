@@ -9,8 +9,9 @@
         novalidate
         class="needs-validation"
         onsubmit="validateForm(event)"
+        enctype="multipart/form-data"
       >
-        <div class="md-3">
+        <div class="mb-3">
           <label for="title" class="form-label"> Title:</label>
           <input
             type="text"
@@ -21,19 +22,25 @@
           />
           <div class="valid-feedback">Title looks fine</div>
         </div>
-        <div class="md-3">
-          <label for="image" class="form-label">Image URL:</label>
-          <input
-            type="text"
-            name="listing[image]"
-            class="form-control"
-            value="<%=listing.image %>"
+
+        <div class="mb-3">
+          Original listing image:
+          <br />
+          <img
+            src="<%=originalImageUrl %>"
+            alt="listing image"
+            class="img-thumbnail mt-2"
+            style="max-width: 300px"
           />
+        </div>
+        <div class="mb-3">
+          <label for="image" class="form-label"> Upload New Image:</label>
+          <input type="file" name="listing[image]" class="form-control" />
           <div class="valid-feedback">
             Default image will be placed in case of empty field
           </div>
         </div>
-        <div class="md-3">
+        <div class="mb-3">
           <label for="description" class="form-label">Description</label>
           <textarea
             name="listing[description]"
@@ -46,7 +53,7 @@
           >
           <div class="invalid-feedback">Adds a short note about the spot</div>
         </div>
-        <div class="md-3">
+        <div class="mb-3">
           <label for="location" class="form-label">Location</label>
           <input
             type="text"
@@ -58,7 +65,7 @@
           <div class="invalid-feedback">Enter a valid location!</div>
         </div>
         <div class="row">
-          <div class="md-3 col-4">
+          <div class="mb-3 col-4">
             <label for="price" class="form-label">Price:</label>
             <input
               type="number"
@@ -81,10 +88,10 @@
             <div class="invalid-feedback">Enter a valid country!</div>
           </div>
         </div>
-        <br /><br />
         <button type="submit" class="btn add-btn" formnovalidate>Update</button>
         <a href="/listing">
           <button class="btn add-btn">Back</button>
+          <br />
         </a>
       </form>
     </div>
